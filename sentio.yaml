@@ -1,0 +1,8 @@
+project: steamm_dex
+contracts:
+  - chain: sui_mainnet
+    address: "0x4fb1cf45dffd6230305f1d269dd1816678cc8e3ba0b747a813a556921219f261"
+    name: steamm
+  - chain: sui_mainnet
+    address: "0xf4054b4c967ea64173453f593a0ec98cb6aa351635cbc412f4fdf5f804bb98db"
+    name: token_launcher
