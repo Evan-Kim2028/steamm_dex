@@ -1,0 +1,1338 @@
+[
+	{
+		"fileFormatVersion": 6,
+		"address": "0xe84b649199654d18c38e727212f5d8dacfc3cf78d60d0a7fc85fd589f280eb2b",
+		"name": "oracle_decimal",
+		"friends": [],
+		"structs": {
+			"OracleDecimal": {
+				"abilities": {
+					"abilities": [
+						"Copy",
+						"Drop",
+						"Store"
+					]
+				},
+				"typeParameters": [],
+				"fields": [
+					{
+						"name": "base",
+						"type": "U128"
+					},
+					{
+						"name": "expo",
+						"type": "U64"
+					},
+					{
+						"name": "is_expo_negative",
+						"type": "Bool"
+					}
+				]
+			}
+		},
+		"exposedFunctions": {
+			"base": {
+				"visibility": "Public",
+				"isEntry": false,
+				"typeParameters": [],
+				"parameters": [
+					{
+						"Reference": {
+							"Struct": {
+								"address": "0xe84b649199654d18c38e727212f5d8dacfc3cf78d60d0a7fc85fd589f280eb2b",
+								"module": "oracle_decimal",
+								"name": "OracleDecimal",
+								"typeArguments": []
+							}
+						}
+					}
+				],
+				"return": [
+					"U128"
+				]
+			},
+			"expo": {
+				"visibility": "Public",
+				"isEntry": false,
+				"typeParameters": [],
+				"parameters": [
+					{
+						"Reference": {
+							"Struct": {
+								"address": "0xe84b649199654d18c38e727212f5d8dacfc3cf78d60d0a7fc85fd589f280eb2b",
+								"module": "oracle_decimal",
+								"name": "OracleDecimal",
+								"typeArguments": []
+							}
+						}
+					}
+				],
+				"return": [
+					"U64"
+				]
+			},
+			"is_expo_negative": {
+				"visibility": "Public",
+				"isEntry": false,
+				"typeParameters": [],
+				"parameters": [
+					{
+						"Reference": {
+							"Struct": {
+								"address": "0xe84b649199654d18c38e727212f5d8dacfc3cf78d60d0a7fc85fd589f280eb2b",
+								"module": "oracle_decimal",
+								"name": "OracleDecimal",
+								"typeArguments": []
+							}
+						}
+					}
+				],
+				"return": [
+					"Bool"
+				]
+			},
+			"new": {
+				"visibility": "Public",
+				"isEntry": false,
+				"typeParameters": [],
+				"parameters": [
+					"U128",
+					"U64",
+					"Bool"
+				],
+				"return": [
+					{
+						"Struct": {
+							"address": "0xe84b649199654d18c38e727212f5d8dacfc3cf78d60d0a7fc85fd589f280eb2b",
+							"module": "oracle_decimal",
+							"name": "OracleDecimal",
+							"typeArguments": []
+						}
+					}
+				]
+			}
+		}
+	},
+	{
+		"fileFormatVersion": 7,
+		"address": "0xe84b649199654d18c38e727212f5d8dacfc3cf78d60d0a7fc85fd589f280eb2b",
+		"name": "oracles",
+		"friends": [],
+		"structs": {
+			"AdminCap": {
+				"abilities": {
+					"abilities": [
+						"Store",
+						"Key"
+					]
+				},
+				"typeParameters": [],
+				"fields": [
+					{
+						"name": "id",
+						"type": {
+							"Struct": {
+								"address": "0x2",
+								"module": "object",
+								"name": "UID",
+								"typeArguments": []
+							}
+						}
+					},
+					{
+						"name": "oracle_registry_id",
+						"type": {
+							"Struct": {
+								"address": "0x2",
+								"module": "object",
+								"name": "ID",
+								"typeArguments": []
+							}
+						}
+					}
+				]
+			},
+			"NewRegistryEvent": {
+				"abilities": {
+					"abilities": [
+						"Copy",
+						"Drop",
+						"Store"
+					]
+				},
+				"typeParameters": [],
+				"fields": [
+					{
+						"name": "registry_id",
+						"type": {
+							"Struct": {
+								"address": "0x2",
+								"module": "object",
+								"name": "ID",
+								"typeArguments": []
+							}
+						}
+					},
+					{
+						"name": "admin_cap_id",
+						"type": {
+							"Struct": {
+								"address": "0x2",
+								"module": "object",
+								"name": "ID",
+								"typeArguments": []
+							}
+						}
+					},
+					{
+						"name": "pyth_max_staleness_threshold_s",
+						"type": "U64"
+					},
+					{
+						"name": "pyth_max_confidence_interval_pct",
+						"type": "U64"
+					},
+					{
+						"name": "switchboard_max_staleness_threshold_s",
+						"type": "U64"
+					},
+					{
+						"name": "switchboard_max_confidence_interval_pct",
+						"type": "U64"
+					}
+				]
+			},
+			"Oracle": {
+				"abilities": {
+					"abilities": [
+						"Store"
+					]
+				},
+				"typeParameters": [],
+				"fields": [
+					{
+						"name": "oracle_type",
+						"type": {
+							"Struct": {
+								"address": "0xe84b649199654d18c38e727212f5d8dacfc3cf78d60d0a7fc85fd589f280eb2b",
+								"module": "oracles",
+								"name": "OracleType",
+								"typeArguments": []
+							}
+						}
+					},
+					{
+						"name": "extra_fields",
+						"type": {
+							"Struct": {
+								"address": "0x2",
+								"module": "bag",
+								"name": "Bag",
+								"typeArguments": []
+							}
+						}
+					}
+				]
+			},
+			"OraclePriceUpdate": {
+				"abilities": {
+					"abilities": [
+						"Drop"
+					]
+				},
+				"typeParameters": [],
+				"fields": [
+					{
+						"name": "oracle_registry_id",
+						"type": {
+							"Struct": {
+								"address": "0x2",
+								"module": "object",
+								"name": "ID",
+								"typeArguments": []
+							}
+						}
+					},
+					{
+						"name": "oracle_index",
+						"type": "U64"
+					},
+					{
+						"name": "price",
+						"type": {
+							"Struct": {
+								"address": "0xe84b649199654d18c38e727212f5d8dacfc3cf78d60d0a7fc85fd589f280eb2b",
+								"module": "oracle_decimal",
+								"name": "OracleDecimal",
+								"typeArguments": []
+							}
+						}
+					},
+					{
+						"name": "ema_price",
+						"type": {
+							"Struct": {
+								"address": "0x1",
+								"module": "option",
+								"name": "Option",
+								"typeArguments": [
+									{
+										"Struct": {
+											"address": "0xe84b649199654d18c38e727212f5d8dacfc3cf78d60d0a7fc85fd589f280eb2b",
+											"module": "oracle_decimal",
+											"name": "OracleDecimal",
+											"typeArguments": []
+										}
+									}
+								]
+							}
+						}
+					},
+					{
+						"name": "metadata",
+						"type": {
+							"Struct": {
+								"address": "0xe84b649199654d18c38e727212f5d8dacfc3cf78d60d0a7fc85fd589f280eb2b",
+								"module": "oracles",
+								"name": "OracleMetadata",
+								"typeArguments": []
+							}
+						}
+					}
+				]
+			},
+			"OracleRegistry": {
+				"abilities": {
+					"abilities": [
+						"Store",
+						"Key"
+					]
+				},
+				"typeParameters": [],
+				"fields": [
+					{
+						"name": "id",
+						"type": {
+							"Struct": {
+								"address": "0x2",
+								"module": "object",
+								"name": "UID",
+								"typeArguments": []
+							}
+						}
+					},
+					{
+						"name": "config",
+						"type": {
+							"Struct": {
+								"address": "0xe84b649199654d18c38e727212f5d8dacfc3cf78d60d0a7fc85fd589f280eb2b",
+								"module": "oracles",
+								"name": "OracleRegistryConfig",
+								"typeArguments": []
+							}
+						}
+					},
+					{
+						"name": "oracles",
+						"type": {
+							"Vector": {
+								"Struct": {
+									"address": "0xe84b649199654d18c38e727212f5d8dacfc3cf78d60d0a7fc85fd589f280eb2b",
+									"module": "oracles",
+									"name": "Oracle",
+									"typeArguments": []
+								}
+							}
+						}
+					},
+					{
+						"name": "version",
+						"type": {
+							"Struct": {
+								"address": "0xe84b649199654d18c38e727212f5d8dacfc3cf78d60d0a7fc85fd589f280eb2b",
+								"module": "version",
+								"name": "Version",
+								"typeArguments": []
+							}
+						}
+					},
+					{
+						"name": "extra_fields",
+						"type": {
+							"Struct": {
+								"address": "0x2",
+								"module": "bag",
+								"name": "Bag",
+								"typeArguments": []
+							}
+						}
+					}
+				]
+			},
+			"OracleRegistryConfig": {
+				"abilities": {
+					"abilities": [
+						"Store"
+					]
+				},
+				"typeParameters": [],
+				"fields": [
+					{
+						"name": "pyth_max_staleness_threshold_s",
+						"type": "U64"
+					},
+					{
+						"name": "pyth_max_confidence_interval_pct",
+						"type": "U64"
+					},
+					{
+						"name": "switchboard_max_staleness_threshold_s",
+						"type": "U64"
+					},
+					{
+						"name": "switchboard_max_confidence_interval_pct",
+						"type": "U64"
+					},
+					{
+						"name": "extra_fields",
+						"type": {
+							"Struct": {
+								"address": "0x2",
+								"module": "bag",
+								"name": "Bag",
+								"typeArguments": []
+							}
+						}
+					}
+				]
+			}
+		},
+		"enums": {
+			"OracleMetadata": {
+				"abilities": {
+					"abilities": [
+						"Copy",
+						"Drop",
+						"Store"
+					]
+				},
+				"typeParameters": [],
+				"variants": {
+					"Pyth": [
+						{
+							"name": "price_feed",
+							"type": {
+								"Struct": {
+									"address": "0x8d97f1cd6ac663735be08d1d2b6d02a159e711586461306ce60a2b7a6a565a9e",
+									"module": "price_feed",
+									"name": "PriceFeed",
+									"typeArguments": []
+								}
+							}
+						}
+					],
+					"Switchboard": [
+						{
+							"name": "current_result",
+							"type": {
+								"Struct": {
+									"address": "0xc3c7e6eb7202e9fb0389a2f7542b91cc40e4f7a33c02554fec11c4c92f938ea3",
+									"module": "aggregator",
+									"name": "CurrentResult",
+									"typeArguments": []
+								}
+							}
+						}
+					]
+				},
+				"variantDeclarationOrder": [
+					"Pyth",
+					"Switchboard"
+				]
+			},
+			"OracleType": {
+				"abilities": {
+					"abilities": [
+						"Copy",
+						"Drop",
+						"Store"
+					]
+				},
+				"typeParameters": [],
+				"variants": {
+					"Pyth": [
+						{
+							"name": "price_identifier",
+							"type": {
+								"Struct": {
+									"address": "0x8d97f1cd6ac663735be08d1d2b6d02a159e711586461306ce60a2b7a6a565a9e",
+									"module": "price_identifier",
+									"name": "PriceIdentifier",
+									"typeArguments": []
+								}
+							}
+						}
+					],
+					"Switchboard": [
+						{
+							"name": "feed_id",
+							"type": {
+								"Struct": {
+									"address": "0x2",
+									"module": "object",
+									"name": "ID",
+									"typeArguments": []
+								}
+							}
+						}
+					]
+				},
+				"variantDeclarationOrder": [
+					"Pyth",
+					"Switchboard"
+				]
+			}
+		},
+		"exposedFunctions": {
+			"add_pyth_oracle": {
+				"visibility": "Public",
+				"isEntry": false,
+				"typeParameters": [],
+				"parameters": [
+					{
+						"MutableReference": {
+							"Struct": {
+								"address": "0xe84b649199654d18c38e727212f5d8dacfc3cf78d60d0a7fc85fd589f280eb2b",
+								"module": "oracles",
+								"name": "OracleRegistry",
+								"typeArguments": []
+							}
+						}
+					},
+					{
+						"Reference": {
+							"Struct": {
+								"address": "0xe84b649199654d18c38e727212f5d8dacfc3cf78d60d0a7fc85fd589f280eb2b",
+								"module": "oracles",
+								"name": "AdminCap",
+								"typeArguments": []
+							}
+						}
+					},
+					{
+						"Reference": {
+							"Struct": {
+								"address": "0x8d97f1cd6ac663735be08d1d2b6d02a159e711586461306ce60a2b7a6a565a9e",
+								"module": "price_info",
+								"name": "PriceInfoObject",
+								"typeArguments": []
+							}
+						}
+					},
+					{
+						"MutableReference": {
+							"Struct": {
+								"address": "0x2",
+								"module": "tx_context",
+								"name": "TxContext",
+								"typeArguments": []
+							}
+						}
+					}
+				],
+				"return": []
+			},
+			"add_switchboard_oracle": {
+				"visibility": "Public",
+				"isEntry": false,
+				"typeParameters": [],
+				"parameters": [
+					{
+						"MutableReference": {
+							"Struct": {
+								"address": "0xe84b649199654d18c38e727212f5d8dacfc3cf78d60d0a7fc85fd589f280eb2b",
+								"module": "oracles",
+								"name": "OracleRegistry",
+								"typeArguments": []
+							}
+						}
+					},
+					{
+						"Reference": {
+							"Struct": {
+								"address": "0xe84b649199654d18c38e727212f5d8dacfc3cf78d60d0a7fc85fd589f280eb2b",
+								"module": "oracles",
+								"name": "AdminCap",
+								"typeArguments": []
+							}
+						}
+					},
+					{
+						"Reference": {
+							"Struct": {
+								"address": "0xc3c7e6eb7202e9fb0389a2f7542b91cc40e4f7a33c02554fec11c4c92f938ea3",
+								"module": "aggregator",
+								"name": "Aggregator",
+								"typeArguments": []
+							}
+						}
+					},
+					{
+						"MutableReference": {
+							"Struct": {
+								"address": "0x2",
+								"module": "tx_context",
+								"name": "TxContext",
+								"typeArguments": []
+							}
+						}
+					}
+				],
+				"return": []
+			},
+			"ema_price": {
+				"visibility": "Public",
+				"isEntry": false,
+				"typeParameters": [],
+				"parameters": [
+					{
+						"Reference": {
+							"Struct": {
+								"address": "0xe84b649199654d18c38e727212f5d8dacfc3cf78d60d0a7fc85fd589f280eb2b",
+								"module": "oracles",
+								"name": "OraclePriceUpdate",
+								"typeArguments": []
+							}
+						}
+					}
+				],
+				"return": [
+					{
+						"Struct": {
+							"address": "0x1",
+							"module": "option",
+							"name": "Option",
+							"typeArguments": [
+								{
+									"Struct": {
+										"address": "0xe84b649199654d18c38e727212f5d8dacfc3cf78d60d0a7fc85fd589f280eb2b",
+										"module": "oracle_decimal",
+										"name": "OracleDecimal",
+										"typeArguments": []
+									}
+								}
+							]
+						}
+					}
+				]
+			},
+			"get_pyth_price": {
+				"visibility": "Public",
+				"isEntry": false,
+				"typeParameters": [],
+				"parameters": [
+					{
+						"Reference": {
+							"Struct": {
+								"address": "0xe84b649199654d18c38e727212f5d8dacfc3cf78d60d0a7fc85fd589f280eb2b",
+								"module": "oracles",
+								"name": "OracleRegistry",
+								"typeArguments": []
+							}
+						}
+					},
+					{
+						"Reference": {
+							"Struct": {
+								"address": "0x8d97f1cd6ac663735be08d1d2b6d02a159e711586461306ce60a2b7a6a565a9e",
+								"module": "price_info",
+								"name": "PriceInfoObject",
+								"typeArguments": []
+							}
+						}
+					},
+					"U64",
+					{
+						"Reference": {
+							"Struct": {
+								"address": "0x2",
+								"module": "clock",
+								"name": "Clock",
+								"typeArguments": []
+							}
+						}
+					}
+				],
+				"return": [
+					{
+						"Struct": {
+							"address": "0xe84b649199654d18c38e727212f5d8dacfc3cf78d60d0a7fc85fd589f280eb2b",
+							"module": "oracles",
+							"name": "OraclePriceUpdate",
+							"typeArguments": []
+						}
+					}
+				]
+			},
+			"get_switchboard_price": {
+				"visibility": "Public",
+				"isEntry": false,
+				"typeParameters": [],
+				"parameters": [
+					{
+						"Reference": {
+							"Struct": {
+								"address": "0xe84b649199654d18c38e727212f5d8dacfc3cf78d60d0a7fc85fd589f280eb2b",
+								"module": "oracles",
+								"name": "OracleRegistry",
+								"typeArguments": []
+							}
+						}
+					},
+					{
+						"Reference": {
+							"Struct": {
+								"address": "0xc3c7e6eb7202e9fb0389a2f7542b91cc40e4f7a33c02554fec11c4c92f938ea3",
+								"module": "aggregator",
+								"name": "Aggregator",
+								"typeArguments": []
+							}
+						}
+					},
+					"U64",
+					{
+						"Reference": {
+							"Struct": {
+								"address": "0x2",
+								"module": "clock",
+								"name": "Clock",
+								"typeArguments": []
+							}
+						}
+					}
+				],
+				"return": [
+					{
+						"Struct": {
+							"address": "0xe84b649199654d18c38e727212f5d8dacfc3cf78d60d0a7fc85fd589f280eb2b",
+							"module": "oracles",
+							"name": "OraclePriceUpdate",
+							"typeArguments": []
+						}
+					}
+				]
+			},
+			"metadata": {
+				"visibility": "Public",
+				"isEntry": false,
+				"typeParameters": [],
+				"parameters": [
+					{
+						"Reference": {
+							"Struct": {
+								"address": "0xe84b649199654d18c38e727212f5d8dacfc3cf78d60d0a7fc85fd589f280eb2b",
+								"module": "oracles",
+								"name": "OraclePriceUpdate",
+								"typeArguments": []
+							}
+						}
+					}
+				],
+				"return": [
+					{
+						"Struct": {
+							"address": "0xe84b649199654d18c38e727212f5d8dacfc3cf78d60d0a7fc85fd589f280eb2b",
+							"module": "oracles",
+							"name": "OracleMetadata",
+							"typeArguments": []
+						}
+					}
+				]
+			},
+			"metadata_pyth": {
+				"visibility": "Public",
+				"isEntry": false,
+				"typeParameters": [],
+				"parameters": [
+					{
+						"Reference": {
+							"Struct": {
+								"address": "0xe84b649199654d18c38e727212f5d8dacfc3cf78d60d0a7fc85fd589f280eb2b",
+								"module": "oracles",
+								"name": "OracleMetadata",
+								"typeArguments": []
+							}
+						}
+					}
+				],
+				"return": [
+					{
+						"Reference": {
+							"Struct": {
+								"address": "0x8d97f1cd6ac663735be08d1d2b6d02a159e711586461306ce60a2b7a6a565a9e",
+								"module": "price_feed",
+								"name": "PriceFeed",
+								"typeArguments": []
+							}
+						}
+					}
+				]
+			},
+			"metadata_switchboard": {
+				"visibility": "Public",
+				"isEntry": false,
+				"typeParameters": [],
+				"parameters": [
+					{
+						"Reference": {
+							"Struct": {
+								"address": "0xe84b649199654d18c38e727212f5d8dacfc3cf78d60d0a7fc85fd589f280eb2b",
+								"module": "oracles",
+								"name": "OracleMetadata",
+								"typeArguments": []
+							}
+						}
+					}
+				],
+				"return": [
+					{
+						"Reference": {
+							"Struct": {
+								"address": "0xc3c7e6eb7202e9fb0389a2f7542b91cc40e4f7a33c02554fec11c4c92f938ea3",
+								"module": "aggregator",
+								"name": "CurrentResult",
+								"typeArguments": []
+							}
+						}
+					}
+				]
+			},
+			"new": {
+				"visibility": "Public",
+				"isEntry": false,
+				"typeParameters": [],
+				"parameters": [
+					{
+						"Struct": {
+							"address": "0xe84b649199654d18c38e727212f5d8dacfc3cf78d60d0a7fc85fd589f280eb2b",
+							"module": "oracles",
+							"name": "OracleRegistryConfig",
+							"typeArguments": []
+						}
+					},
+					{
+						"MutableReference": {
+							"Struct": {
+								"address": "0x2",
+								"module": "tx_context",
+								"name": "TxContext",
+								"typeArguments": []
+							}
+						}
+					}
+				],
+				"return": [
+					{
+						"Struct": {
+							"address": "0xe84b649199654d18c38e727212f5d8dacfc3cf78d60d0a7fc85fd589f280eb2b",
+							"module": "oracles",
+							"name": "OracleRegistry",
+							"typeArguments": []
+						}
+					},
+					{
+						"Struct": {
+							"address": "0xe84b649199654d18c38e727212f5d8dacfc3cf78d60d0a7fc85fd589f280eb2b",
+							"module": "oracles",
+							"name": "AdminCap",
+							"typeArguments": []
+						}
+					}
+				]
+			},
+			"new_oracle_registry_config": {
+				"visibility": "Public",
+				"isEntry": false,
+				"typeParameters": [],
+				"parameters": [
+					"U64",
+					"U64",
+					"U64",
+					"U64",
+					{
+						"MutableReference": {
+							"Struct": {
+								"address": "0x2",
+								"module": "tx_context",
+								"name": "TxContext",
+								"typeArguments": []
+							}
+						}
+					}
+				],
+				"return": [
+					{
+						"Struct": {
+							"address": "0xe84b649199654d18c38e727212f5d8dacfc3cf78d60d0a7fc85fd589f280eb2b",
+							"module": "oracles",
+							"name": "OracleRegistryConfig",
+							"typeArguments": []
+						}
+					}
+				]
+			},
+			"oracle_index": {
+				"visibility": "Public",
+				"isEntry": false,
+				"typeParameters": [],
+				"parameters": [
+					{
+						"Reference": {
+							"Struct": {
+								"address": "0xe84b649199654d18c38e727212f5d8dacfc3cf78d60d0a7fc85fd589f280eb2b",
+								"module": "oracles",
+								"name": "OraclePriceUpdate",
+								"typeArguments": []
+							}
+						}
+					}
+				],
+				"return": [
+					"U64"
+				]
+			},
+			"oracle_registry_id": {
+				"visibility": "Public",
+				"isEntry": false,
+				"typeParameters": [],
+				"parameters": [
+					{
+						"Reference": {
+							"Struct": {
+								"address": "0xe84b649199654d18c38e727212f5d8dacfc3cf78d60d0a7fc85fd589f280eb2b",
+								"module": "oracles",
+								"name": "OraclePriceUpdate",
+								"typeArguments": []
+							}
+						}
+					}
+				],
+				"return": [
+					{
+						"Struct": {
+							"address": "0x2",
+							"module": "object",
+							"name": "ID",
+							"typeArguments": []
+						}
+					}
+				]
+			},
+			"price": {
+				"visibility": "Public",
+				"isEntry": false,
+				"typeParameters": [],
+				"parameters": [
+					{
+						"Reference": {
+							"Struct": {
+								"address": "0xe84b649199654d18c38e727212f5d8dacfc3cf78d60d0a7fc85fd589f280eb2b",
+								"module": "oracles",
+								"name": "OraclePriceUpdate",
+								"typeArguments": []
+							}
+						}
+					}
+				],
+				"return": [
+					{
+						"Struct": {
+							"address": "0xe84b649199654d18c38e727212f5d8dacfc3cf78d60d0a7fc85fd589f280eb2b",
+							"module": "oracle_decimal",
+							"name": "OracleDecimal",
+							"typeArguments": []
+						}
+					}
+				]
+			},
+			"set_pyth_oracle": {
+				"visibility": "Public",
+				"isEntry": false,
+				"typeParameters": [],
+				"parameters": [
+					{
+						"MutableReference": {
+							"Struct": {
+								"address": "0xe84b649199654d18c38e727212f5d8dacfc3cf78d60d0a7fc85fd589f280eb2b",
+								"module": "oracles",
+								"name": "OracleRegistry",
+								"typeArguments": []
+							}
+						}
+					},
+					{
+						"Reference": {
+							"Struct": {
+								"address": "0xe84b649199654d18c38e727212f5d8dacfc3cf78d60d0a7fc85fd589f280eb2b",
+								"module": "oracles",
+								"name": "AdminCap",
+								"typeArguments": []
+							}
+						}
+					},
+					{
+						"Reference": {
+							"Struct": {
+								"address": "0x8d97f1cd6ac663735be08d1d2b6d02a159e711586461306ce60a2b7a6a565a9e",
+								"module": "price_info",
+								"name": "PriceInfoObject",
+								"typeArguments": []
+							}
+						}
+					},
+					"U64"
+				],
+				"return": []
+			},
+			"set_switchboard_oracle": {
+				"visibility": "Public",
+				"isEntry": false,
+				"typeParameters": [],
+				"parameters": [
+					{
+						"MutableReference": {
+							"Struct": {
+								"address": "0xe84b649199654d18c38e727212f5d8dacfc3cf78d60d0a7fc85fd589f280eb2b",
+								"module": "oracles",
+								"name": "OracleRegistry",
+								"typeArguments": []
+							}
+						}
+					},
+					{
+						"Reference": {
+							"Struct": {
+								"address": "0xe84b649199654d18c38e727212f5d8dacfc3cf78d60d0a7fc85fd589f280eb2b",
+								"module": "oracles",
+								"name": "AdminCap",
+								"typeArguments": []
+							}
+						}
+					},
+					{
+						"Reference": {
+							"Struct": {
+								"address": "0xc3c7e6eb7202e9fb0389a2f7542b91cc40e4f7a33c02554fec11c4c92f938ea3",
+								"module": "aggregator",
+								"name": "Aggregator",
+								"typeArguments": []
+							}
+						}
+					},
+					"U64"
+				],
+				"return": []
+			}
+		}
+	},
+	{
+		"fileFormatVersion": 6,
+		"address": "0xe84b649199654d18c38e727212f5d8dacfc3cf78d60d0a7fc85fd589f280eb2b",
+		"name": "pyth",
+		"friends": [
+			{
+				"address": "0xe84b649199654d18c38e727212f5d8dacfc3cf78d60d0a7fc85fd589f280eb2b",
+				"name": "oracles"
+			}
+		],
+		"structs": {},
+		"exposedFunctions": {
+			"from_pyth_price": {
+				"visibility": "Friend",
+				"isEntry": false,
+				"typeParameters": [],
+				"parameters": [
+					{
+						"Reference": {
+							"Struct": {
+								"address": "0x8d97f1cd6ac663735be08d1d2b6d02a159e711586461306ce60a2b7a6a565a9e",
+								"module": "price",
+								"name": "Price",
+								"typeArguments": []
+							}
+						}
+					}
+				],
+				"return": [
+					{
+						"Struct": {
+							"address": "0xe84b649199654d18c38e727212f5d8dacfc3cf78d60d0a7fc85fd589f280eb2b",
+							"module": "oracle_decimal",
+							"name": "OracleDecimal",
+							"typeArguments": []
+						}
+					}
+				]
+			},
+			"get_prices": {
+				"visibility": "Friend",
+				"isEntry": false,
+				"typeParameters": [],
+				"parameters": [
+					{
+						"Reference": {
+							"Struct": {
+								"address": "0x8d97f1cd6ac663735be08d1d2b6d02a159e711586461306ce60a2b7a6a565a9e",
+								"module": "price_info",
+								"name": "PriceInfoObject",
+								"typeArguments": []
+							}
+						}
+					},
+					{
+						"Reference": {
+							"Struct": {
+								"address": "0x2",
+								"module": "clock",
+								"name": "Clock",
+								"typeArguments": []
+							}
+						}
+					},
+					"U64",
+					"U64",
+					{
+						"Struct": {
+							"address": "0x8d97f1cd6ac663735be08d1d2b6d02a159e711586461306ce60a2b7a6a565a9e",
+							"module": "price_identifier",
+							"name": "PriceIdentifier",
+							"typeArguments": []
+						}
+					}
+				],
+				"return": [
+					{
+						"Struct": {
+							"address": "0xe84b649199654d18c38e727212f5d8dacfc3cf78d60d0a7fc85fd589f280eb2b",
+							"module": "oracle_decimal",
+							"name": "OracleDecimal",
+							"typeArguments": []
+						}
+					},
+					{
+						"Struct": {
+							"address": "0xe84b649199654d18c38e727212f5d8dacfc3cf78d60d0a7fc85fd589f280eb2b",
+							"module": "oracle_decimal",
+							"name": "OracleDecimal",
+							"typeArguments": []
+						}
+					},
+					{
+						"Struct": {
+							"address": "0x8d97f1cd6ac663735be08d1d2b6d02a159e711586461306ce60a2b7a6a565a9e",
+							"module": "price_feed",
+							"name": "PriceFeed",
+							"typeArguments": []
+						}
+					}
+				]
+			}
+		}
+	},
+	{
+		"fileFormatVersion": 6,
+		"address": "0xe84b649199654d18c38e727212f5d8dacfc3cf78d60d0a7fc85fd589f280eb2b",
+		"name": "switchboard",
+		"friends": [],
+		"structs": {},
+		"exposedFunctions": {
+			"from_switchboard_decimal": {
+				"visibility": "Friend",
+				"isEntry": false,
+				"typeParameters": [],
+				"parameters": [
+					{
+						"Reference": {
+							"Struct": {
+								"address": "0xc3c7e6eb7202e9fb0389a2f7542b91cc40e4f7a33c02554fec11c4c92f938ea3",
+								"module": "decimal",
+								"name": "Decimal",
+								"typeArguments": []
+							}
+						}
+					}
+				],
+				"return": [
+					{
+						"Struct": {
+							"address": "0xe84b649199654d18c38e727212f5d8dacfc3cf78d60d0a7fc85fd589f280eb2b",
+							"module": "oracle_decimal",
+							"name": "OracleDecimal",
+							"typeArguments": []
+						}
+					}
+				]
+			},
+			"get_price": {
+				"visibility": "Public",
+				"isEntry": false,
+				"typeParameters": [],
+				"parameters": [
+					{
+						"Reference": {
+							"Struct": {
+								"address": "0xc3c7e6eb7202e9fb0389a2f7542b91cc40e4f7a33c02554fec11c4c92f938ea3",
+								"module": "aggregator",
+								"name": "Aggregator",
+								"typeArguments": []
+							}
+						}
+					},
+					{
+						"Reference": {
+							"Struct": {
+								"address": "0x2",
+								"module": "clock",
+								"name": "Clock",
+								"typeArguments": []
+							}
+						}
+					},
+					"U64",
+					"U64",
+					{
+						"Struct": {
+							"address": "0x2",
+							"module": "object",
+							"name": "ID",
+							"typeArguments": []
+						}
+					}
+				],
+				"return": [
+					{
+						"Struct": {
+							"address": "0xe84b649199654d18c38e727212f5d8dacfc3cf78d60d0a7fc85fd589f280eb2b",
+							"module": "oracle_decimal",
+							"name": "OracleDecimal",
+							"typeArguments": []
+						}
+					},
+					{
+						"Struct": {
+							"address": "0xc3c7e6eb7202e9fb0389a2f7542b91cc40e4f7a33c02554fec11c4c92f938ea3",
+							"module": "aggregator",
+							"name": "CurrentResult",
+							"typeArguments": []
+						}
+					}
+				]
+			}
+		}
+	},
+	{
+		"fileFormatVersion": 6,
+		"address": "0xe84b649199654d18c38e727212f5d8dacfc3cf78d60d0a7fc85fd589f280eb2b",
+		"name": "version",
+		"friends": [
+			{
+				"address": "0xe84b649199654d18c38e727212f5d8dacfc3cf78d60d0a7fc85fd589f280eb2b",
+				"name": "oracles"
+			}
+		],
+		"structs": {
+			"Version": {
+				"abilities": {
+					"abilities": [
+						"Drop",
+						"Store"
+					]
+				},
+				"typeParameters": [],
+				"fields": [
+					{
+						"name": "pos0",
+						"type": "U16"
+					}
+				]
+			}
+		},
+		"exposedFunctions": {
+			"assert_version": {
+				"visibility": "Friend",
+				"isEntry": false,
+				"typeParameters": [],
+				"parameters": [
+					{
+						"Reference": {
+							"Struct": {
+								"address": "0xe84b649199654d18c38e727212f5d8dacfc3cf78d60d0a7fc85fd589f280eb2b",
+								"module": "version",
+								"name": "Version",
+								"typeArguments": []
+							}
+						}
+					},
+					"U16"
+				],
+				"return": []
+			},
+			"assert_version_and_upgrade": {
+				"visibility": "Friend",
+				"isEntry": false,
+				"typeParameters": [],
+				"parameters": [
+					{
+						"MutableReference": {
+							"Struct": {
+								"address": "0xe84b649199654d18c38e727212f5d8dacfc3cf78d60d0a7fc85fd589f280eb2b",
+								"module": "version",
+								"name": "Version",
+								"typeArguments": []
+							}
+						}
+					},
+					"U16"
+				],
+				"return": []
+			},
+			"migrate_": {
+				"visibility": "Friend",
+				"isEntry": false,
+				"typeParameters": [],
+				"parameters": [
+					{
+						"MutableReference": {
+							"Struct": {
+								"address": "0xe84b649199654d18c38e727212f5d8dacfc3cf78d60d0a7fc85fd589f280eb2b",
+								"module": "version",
+								"name": "Version",
+								"typeArguments": []
+							}
+						}
+					},
+					"U16"
+				],
+				"return": []
+			},
+			"new": {
+				"visibility": "Friend",
+				"isEntry": false,
+				"typeParameters": [],
+				"parameters": [
+					"U16"
+				],
+				"return": [
+					{
+						"Struct": {
+							"address": "0xe84b649199654d18c38e727212f5d8dacfc3cf78d60d0a7fc85fd589f280eb2b",
+							"module": "version",
+							"name": "Version",
+							"typeArguments": []
+						}
+					}
+				]
+			}
+		}
+	}
+]

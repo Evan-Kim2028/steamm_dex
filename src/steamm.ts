@@ -1,5 +1,6 @@
 import { events, pool as poolTypes, registry as registryTypes } from "./types/sui/steamm.js";
 import { token_emitter } from "./types/sui/token_launcher.js";
+import { steamm_cpmm, steamm_omm } from "./types/sui/steam_cpmm.js";
 
 // Define the full type names for easier comparison
 const SWAP_RESULT_TYPE = "0x4fb1cf45dffd6230305f1d269dd1816678cc8e3ba0b747a813a556921219f261::pool::SwapResult";
@@ -106,7 +107,34 @@ export function initSteammProcessor() {
                   break;
           }
       });
+      
+    steamm_cpmm.bind()
+    .onEventSteammCPMMSwapEvent(async (event, ctx) => {
+        await ctx.eventLogger.emit('steamm_cpmm_swap_event', {
+            distinctId: event.sender,
+            pool_id: event.data_decoded.pool_id,
+            amount_in: event.data_decoded.amount_in,
+            amount_out: event.data_decoded.amount_out,
+            a2b: event.data_decoded.a2b,
+            by_amount_in: event.data_decoded.by_amount_in,
+            coin_a_type: `0x${event.data_decoded.coin_a.name}`,
+            coin_b_type: `0x${event.data_decoded.coin_b.name}`,
+        });
+    });
 
+    steamm_omm.bind()
+        .onEventSteammOMMSwapEvent(async (event, ctx) => {
+            await ctx.eventLogger.emit('steamm_omm_swap_event', {
+                distinctId: event.sender,
+                pool_id: event.data_decoded.pool_id,
+                amount_in: event.data_decoded.amount_in,
+                amount_out: event.data_decoded.amount_out,
+                a2b: event.data_decoded.a2b,
+                by_amount_in: event.data_decoded.by_amount_in,
+                coin_a_type: `0x${event.data_decoded.coin_a.name}`,
+                coin_b_type: `0x${event.data_decoded.coin_b.name}`,
+            });
+        });
 
     token_emitter.bind()
     .onEventMintEvent(async (self, ctx) => {
