@@ -46,7 +46,7 @@ SuiObjectTypeProcessor.bind({
     const balance_a = (new BigDecimal(fields.balance_a || 0n));
     const balance_b = (new BigDecimal(fields.balance_b || 0n));
     
-    const lp_supply = (new BigDecimal(fields.lp_supply || 0n));
+    const lp_supply = (new BigDecimal(safeGetValue(fields.lp_supply, 'fields.value') || safeGetValue(fields.lp_supply, 'value') || 0n));
         
     ctx.eventLogger.emit("PoolSnapshot", {
         distinctId: "system", // Use system for timed intervals
@@ -82,32 +82,32 @@ SuiObjectTypeProcessor.bind({
     });
 }, undefined, 4800) // Run every 4800ms (4.8 seconds)
 
-// // Bank Object Processor
-// SuiObjectTypeProcessor.bind({
-//     objectType: new TypeDescriptor(bank.Bank.TYPE_QNAME)
-// })
-// .onTimeInterval(async (self, _, ctx) => {
-//     // Access decoded object fields here
-//     const fields = self.data_decoded;
+// Bank Object Processor
+SuiObjectTypeProcessor.bind({
+    objectType: new TypeDescriptor(bank.Bank.TYPE_QNAME)
+})
+.onTimeInterval(async (self, _, ctx) => {
+    // Access decoded object fields here
+    const fields = self.data_decoded;
     
-//     const lending = fields.lending;
+    const lending = fields.lending;
     
-//     ctx.eventLogger.emit("BankSnapshot", {
-//         distinctId: "system", // Use system for timed intervals
-//         objectId: fields.id?.id || "unknown",
-//         // Generic type arguments from Bank<T0, T1, T2>
-//         lending_market_type: `0x${self.type_arguments[0] || "unknown"}`, // T0 - lending market type
-//         coin_type: `0x${self.type_arguments[1] || "unknown"}`, // T1 - coin type (funds_available)
-//         btoken_type: `0x${self.type_arguments[2] || "unknown"}`, // T2 - btoken type (btoken_supply)
-//         // Bank fields - keep as strings for debugging
-//         funds_available: safeGetValue(fields.funds_available, 'fields.value') || safeGetValue(fields.funds_available, 'value') || '0',
-//         min_token_block_size: fields.min_token_block_size,
-//         btoken_supply: safeGetValue(fields.btoken_supply, 'fields.value') || safeGetValue(fields.btoken_supply, 'value') || '0',
-//         // Lending data - keep as strings
-//         lending_ctokens: lending?.ctokens,
-//         lending_target_utilisation_bps: lending?.target_utilisation_bps,
-//         lending_utilisation_buffer_bps: lending?.utilisation_buffer_bps,
-//         lending_reserve_array_index: lending?.reserve_array_index,
-//         lending_obligation_cap: JSON.stringify(lending?.obligation_cap || {}),
-//     });
-// }, undefined, 4800) // Run every 4800ms (4.8 seconds)
+    ctx.eventLogger.emit("BankSnapshot", {
+        distinctId: "system", // Use system for timed intervals
+        objectId: fields.id?.id || "unknown",
+        // Generic type arguments from Bank<T0, T1, T2>
+        lending_market_type: `${self.type_arguments[0] || "unknown"}`, // T0 - lending market type
+        coin_type: `${self.type_arguments[1] || "unknown"}`, // T1 - coin type (funds_available)
+        btoken_type: `${self.type_arguments[2] || "unknown"}`, // T2 - btoken type (btoken_supply)
+        // Bank fields - keep as strings for debugging
+        funds_available: safeGetValue(fields.funds_available, 'fields.value') || safeGetValue(fields.funds_available, 'value') || '0',
+        min_token_block_size: fields.min_token_block_size,
+        btoken_supply: safeGetValue(fields.btoken_supply, 'fields.value') || safeGetValue(fields.btoken_supply, 'value') || '0',
+        // Lending data - keep as strings
+        lending_ctokens: lending?.ctokens,
+        lending_target_utilisation_bps: lending?.target_utilisation_bps,
+        lending_utilisation_buffer_bps: lending?.utilisation_buffer_bps,
+        lending_reserve_array_index: lending?.reserve_array_index,
+        lending_obligation_cap: JSON.stringify(lending?.obligation_cap || {}),
+    });
+}, undefined, 4800) // Run every 4800ms (4.8 seconds)
