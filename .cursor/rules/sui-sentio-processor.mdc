@@ -1,0 +1,116 @@
+---
+description: 
+globs: 
+alwaysApply: true
+---
+Sui
+Sui is a Layer 1 blockchain also utilizing the Move language, but with a distinct object-centric model.
+
+Core Concepts
+Sui integration utilizes Move-based concepts similar to Aptos but adapted for Sui's unique architecture, especially its object model.
+
+Processors
+Sui integration offers several processor types:
+
+SuiModulesProcessor: Binds to a specific Sui package (smart contract) address. Use this to process events and function calls originating from that package.
+
+Typical Use Case: Monitoring a specific dApp's events and interactions.
+Binding: SuiModulesProcessor.bind({ address: '0x...', network: SuiNetwork.MAIN_NET, startCheckpoint: 1000000n })
+SuiGlobalProcessor: Processes transaction blocks across the entire Sui network, optionally filtered. Also supports handling specific object changes globally.
+
+Typical Use Case: Chain-wide analytics, monitoring all transactions of a certain type, tracking global changes to specific object types.
+Binding: SuiGlobalProcessor.bind({ network: SuiNetwork.MAIN_NET, startCheckpoint: 1000000n })
+SuiAddressProcessor: Periodically fetches all objects owned by a specific address and processes them. Also allows handling transaction blocks sent to this address.
+
+Typical Use Case: Monitoring an account's portfolio, tracking all incoming transactions to an address.
+Binding: SuiAddressProcessor.bind({ address: '0x...', network: SuiNetwork.MAIN_NET, startCheckpoint: 1000000n })
+SuiObjectProcessor: Periodically fetches a specific object (by ID) and its dynamic fields, processing their state.
+
+Typical Use Case: Monitoring the state of a specific NFT, LP token object, or other critical single objects.
+Binding: SuiObjectProcessor.bind({ objectId: '0x...', network: SuiNetwork.MAIN_NET, startCheckpoint: 1000000n })
+SuiObjectTypeProcessor<T>: Periodically fetches all objects of a specific Move type across the network.
+
+Typical Use Case: Tracking all NFTs of a certain collection type, monitoring all instances of a custom object type.
+Binding: SuiObjectTypeProcessor.bind({ objectType: '0x...::collection::NftType', network: SuiNetwork.MAIN_NET, startCheckpoint: 1000000n })
+The generic type T can be used with @typemove/sui for decoding object data if the type structure is known.
+Handlers
+Handlers vary depending on the processor type:
+
+SuiModulesProcessor/SuiGlobalProcessor:
+
+onMoveEvent(handler(event, ctx), filter): Triggered when a specific Move event matching the filter (type string) is emitted.
+onEntryFunctionCall(handler(call, ctx), filter): Triggered when an entry function matching the filter (e.g., 0x...::module::function_name) is called.
+onTransactionBlock(handler(tx, ctx), filter?): Triggered for transaction blocks matching the filter (e.g., involving specific addresses).
+onObjectChange(handler(changes, ctx), typeFilter) (SuiGlobalProcessor only): Triggered when objects matching the typeFilter are changed (created, mutated, deleted) within any transaction block.
+SuiAddressProcessor/SuiObjectProcessor / SuiObjectTypeProcessor:
+
+onTimeInterval(handler(objects | self, dynamicFields, ctx), intervalMinutes?, backfillIntervalMinutes?, type?, fetchConfig?): Periodically fetches and processes objects based on time intervals.
+SuiAddressProcessor: handler(objects: SuiMoveObject[], ctx: SuiAddressContext)
+SuiObjectProcessor: handler(self: SuiMoveObject, dynamicFields: SuiMoveObject[], ctx: SuiObjectContext)
+SuiObjectTypeProcessor: handler(self: TypedSuiMoveObject<T>, dynamicFields: SuiMoveObject[], ctx: SuiObjectContext)
+onCheckpointInterval(handler(...), interval?, backfillInterval?, type?, fetchConfig?): Similar to onTimeInterval but based on checkpoint intervals.
+onTransactionBlock(handler(tx, ctx), filter?) (SuiAddressProcessor only): Handles transaction blocks sent to the bound address.
+onObjectChange(handler(changes, ctx)) (SuiObjectTypeProcessor only): Processes changes specific to the bound object type.
+Context (ctx)
+Handlers receive a context object specific to the processor and handler type (SuiContext, SuiAddressContext, SuiObjectContext, SuiObjectChangeContext) providing:
+
+Chain information: network, checkpoint.
+Source details: address (package or account), moduleName, objectId.
+Transaction/Event details: transaction, eventIndex, timestamp.
+Helper methods: Sui client (ctx.client) for interacting with the RPC, coder for decoding Move data.
+Standard SDK outputs: ctx.meter.Counter('...'), ctx.eventLogger.emit('...'), ctx.exporter.sui_Object(...).
+Fetch Configuration (fetchConfig)
+Transaction-based handlers (onMoveEvent, onEntryFunctionCall, onTransactionBlock) support MoveFetchConfig (similar to Aptos) to include resourceChanges, allEvents, or inputs.
+TypeScript
+
+interface MoveFetchConfig {
+    allEvents: boolean;            // Fetch all events for the transaction
+    includeFailedTransaction?: boolean; // Include failed transactions
+    inputs: boolean;               // Fetch transaction input arguments
+    resourceChanges: boolean;      // Fetch resource changes
+    resourceConfig?: ResourceConfig; // Specific configuration for resource fetching
+    supportMultisigFunc?: boolean;   // Support for multisig functions
+}
+Interval-based handlers (onTimeInterval, onCheckpointInterval) support MoveAccountFetchConfig (mainly owned: true/false).
+TypeScript
+
+interface MoveAccountFetchConfig {
+    owned: boolean;
+}
+Getting Started Example (Processing Events)
+TypeScript
+
+import { SuiModulesProcessor, SuiContext, SuiNetwork } from "@sentio/sdk/sui";
+import { SuiEvent } from '@mysten/sui/client';
+
+const PACKAGE_ADDRESS = "0xdee9...package_id"; // Replace with your package ID
+
+// Define the expected structure of the event based on your Move contract
+interface MyCustomEvent {
+  field1: string;
+  amount: bigint;
+  user: string;
+}
+
+SuiModulesProcessor.bind({
+  address: PACKAGE_ADDRESS,
+  network: SuiNetwork.MAIN_NET,
+  startCheckpoint: 25000000n
+})
+.onMoveEvent(async (event: SuiEvent, ctx: SuiContext) => {
+  // Check if the event type matches what we expect
+  if (event.type === `${PACKAGE_ADDRESS}::my_module::MyCustomEvent`) {
+    // Type cast the parsedJson for easier access, assuming it matches MyCustomEvent
+    const decodedEvent = event.parsedJson as MyCustomEvent;
+
+    ctx.meter.Counter("my_custom_event_cnt").add(1);
+    ctx.meter.Counter("my_custom_event_amount_total").add(decodedEvent.amount);
+
+    ctx.eventLogger.emit("MyCustomEventFired", {
+      distinctId: decodedEvent.user,
+      field1Value: decodedEvent.field1,
+      eventAmount: decodedEvent.amount.toString(), // Convert bigint to string for logging
+      suiTxDigest: ctx.transaction?.digest
+    });
+  }
+}, { type: `${PACKAGE_ADDRESS}::my_module::MyCustomEvent` }); // Filter specifically for this event type
